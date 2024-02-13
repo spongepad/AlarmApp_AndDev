@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="channel_name">알람 알림</string>
+    <string name="channel_description">알람 알림을 위한 채널</string>
+</resources>
