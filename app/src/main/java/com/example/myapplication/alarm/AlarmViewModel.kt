@@ -1,18 +1,24 @@
 package com.example.myapplication.alarm
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import androidx.room.Room
 import kotlinx.coroutines.launch
 
-class AlarmViewModel : ViewModel() {
-    private val _alarms = MutableStateFlow<List<Alarm>>(emptyList())
-    val alarms = _alarms.asStateFlow()
+class AlarmViewModel(application: Application) : AndroidViewModel(application) {
+
+    private val repo = AlarmRepository(application)
+    private val alarms = repo.getAlarms()
 
     fun addAlarm(alarm: Alarm) {
         viewModelScope.launch {
-            _alarms.value = _alarms.value + alarm
+            repo.insert(alarm)
         }
+    }
+
+    fun getAlarms(): LiveData<List<Alarm>> {
+        return this.alarms
     }
 }

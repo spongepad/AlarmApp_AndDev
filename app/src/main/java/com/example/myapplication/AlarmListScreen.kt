@@ -19,7 +19,7 @@ import com.example.myapplication.alarm.AlarmViewModel
 @Composable
 fun AlarmListScreen(navController: NavController, alarmViewModel: AlarmViewModel) {
     // 알람 데이터 목록. 실제 앱에서는 이 부분을 데이터 소스로부터 불러오거나 사용자 입력을 통해 추가됩니다.
-    val alarms = alarmViewModel.alarms.collectAsState().value
+    val alarms = alarmViewModel.getAlarms().value
 
     Scaffold(
         floatingActionButton = {
@@ -41,8 +41,10 @@ fun AlarmListScreen(navController: NavController, alarmViewModel: AlarmViewModel
             verticalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.padding(horizontal = 16.dp)
         ) {
-            items(alarms) { alarm ->
-                AlarmItem(alarm)
+            if (alarms != null) {
+                items(alarms.size) { index ->
+                    AlarmItem(alarms[index])
+                }
             }
         }
     }

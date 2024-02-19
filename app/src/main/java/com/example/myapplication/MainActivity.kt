@@ -8,6 +8,7 @@ import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -16,12 +17,16 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.alarm.AlarmViewModel
-import com.example.myapplication.alarm.setAlarm
+import com.example.myapplication.alarm.AlarmViewModelFactory
 
 class MainActivity : ComponentActivity() {
+
+    private lateinit var alarmViewModel: AlarmViewModel
+    private lateinit var alarmViewModelFactory: AlarmViewModelFactory
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val alarmViewModel = ViewModelProvider(this)[AlarmViewModel::class.java]
+        alarmViewModelFactory = AlarmViewModelFactory(application)
+        alarmViewModel = ViewModelProvider(this, alarmViewModelFactory).get(AlarmViewModel::class.java)
         createNotificationChannel()
         setContent {
             Surface(color = MaterialTheme.colorScheme.background) {

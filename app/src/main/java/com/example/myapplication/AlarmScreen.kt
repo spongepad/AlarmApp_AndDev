@@ -41,8 +41,7 @@ fun AlarmScreen(applicationContext: Context, navController: NavController, alarm
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(onClick = {
-            val alarmId = (alarmViewModel.alarms.value.maxByOrNull { it.id }?.id ?: 0) + 1
-            var alarm = Alarm(alarmId, selectedHour, selectedMinute)
+            val alarm = Alarm(hour = selectedHour, minute = selectedMinute)
 
             alarmViewModel.addAlarm(alarm)
             setAlarm(applicationContext, alarm)
